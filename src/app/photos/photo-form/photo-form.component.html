@@ -2,7 +2,7 @@
   <form [formGroup]="photoForm" class="row" (submit)="upload()">
     <div class="col-md-6 text-center">
       <div class="form-group" *ngIf="!preview; else previewImage">
-        <button class="btn btn-primary" type="button" (click)="fileInput.click()">
+        <button class="btn btn-primary" type="button" apImediateClick (click)="fileInput.click()">
           <i class="fa fa-image fa-4x align-middle"></i>
         </button>
         <input #fileInput hidden type="file" accept="image/*" formControlName="file" (change)="handleFile($event.target.files[0])">

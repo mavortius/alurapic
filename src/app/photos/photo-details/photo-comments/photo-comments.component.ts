@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PhotoComment } from '../../photo/photo-comment';
 import { PhotoService } from '../../photo.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -11,13 +12,18 @@ import { PhotoService } from '../../photo.service';
 export class PhotoCommentsComponent implements OnInit {
   @Input() photoId: number;
 
+  commentForm: FormGroup;
   comments$: Observable<PhotoComment[]>;
 
-  constructor(private photoService: PhotoService) {
+  constructor(private photoService: PhotoService,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
     this.comments$ = this.photoService.getComments(this.photoId);
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.maxLength(300)]
+    });
   }
 
 }

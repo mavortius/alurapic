@@ -7,8 +7,7 @@ import { Photo } from '../photo.model';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'ap-photo-details',
-  templateUrl: './photo-details.component.html',
-  styleUrls: ['./photo-details.component.css']
+  templateUrl: './photo-details.component.html'
 })
 export class PhotoDetailsComponent implements OnInit {
   photo$: Observable<Photo>;

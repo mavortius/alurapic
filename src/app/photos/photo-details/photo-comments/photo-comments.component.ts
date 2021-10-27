@@ -26,4 +26,11 @@ export class PhotoCommentsComponent implements OnInit {
     });
   }
 
+  save() {
+    const comment = this.commentForm.get('comment').value as string;
+    this.photoService.addComment(this.photoId, comment)
+      .subscribe(() => {
+        this.commentForm.reset();
+      });
+  }
 }

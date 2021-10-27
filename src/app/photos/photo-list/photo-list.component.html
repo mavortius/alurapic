@@ -1,5 +1,12 @@
-<app-search (ontyping)="filter = $event"></app-search>
+<ap-search 
+    (onTyping)="filter = $event" [value]="filter">
+</ap-search>
 
-<app-photos [photos]="photos | filterByDescription: filter"></app-photos>
+<ap-photos 
+    [photos]="photos | filterByDescription: filter">
+</ap-photos>
 
-<app-load-button (click)="load()" [hasMore]="hasMore"></app-load-button>
+<ap-load-button 
+    (click)="load()" 
+    [hasMore]="hasMore">
+</ap-load-button>

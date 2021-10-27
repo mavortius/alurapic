@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-photo-form',
+  // tslint:disable-next-line:component-selector
+  selector: 'ap-photo-form',
   templateUrl: './photo-form.component.html',
   styleUrls: ['./photo-form.component.css']
 })
-export class PhotoFormComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class PhotoFormComponent {
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PhotoService } from '../photo.service';
 import { Photo } from '../photo.model';
@@ -13,6 +13,7 @@ export class PhotoDetailsComponent implements OnInit {
   photo$: Observable<Photo>;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private photoService: PhotoService) {
   }
 
@@ -21,4 +22,8 @@ export class PhotoDetailsComponent implements OnInit {
     this.photo$ = this.photoService.findById(photoId);
   }
 
+  remove(photoId: number) {
+    this.photoService.removePhoto(photoId)
+      .subscribe(() => this.router.navigate(['']));
+  }
 }

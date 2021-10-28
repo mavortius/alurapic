@@ -6,8 +6,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { Photo } from './photo.model';
 import { PhotoComment } from './photo/photo-comment';
 import { catchError, map } from 'rxjs/operators';
-
-const API_URL = 'http://localhost:3000/';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
@@ -16,13 +15,13 @@ export class PhotoService {
   }
 
   listFromUser(userName: string): Observable<Photo[]> {
-    return this.http.get<Photo[]>(`${API_URL}${userName}/photos`);
+    return this.http.get<Photo[]>(`${environment.apiUrl}${userName}/photos`);
   }
 
   listFromUserPaginated(userName: string, page: number): Observable<Photo[]> {
     const params = new HttpParams().append('page', page.toString());
 
-    return this.http.get<Photo[]>(`${API_URL}${userName}/photos`, { params });
+    return this.http.get<Photo[]>(`${environment.apiUrl}${userName}/photos`, { params });
   }
 
   upload(description: string, allowComments: boolean, file: File) {
@@ -30,29 +29,29 @@ export class PhotoService {
     formData.append('description', description);
     formData.append('allowComments', allowComments ? 'true' : 'false');
     formData.append('imageFile', file);
-    return this.http.post(`${API_URL}/photos/upload`, formData);
+    return this.http.post(`${environment.apiUrl}/photos/upload`, formData);
   }
 
   findById(photoId: number): Observable<Photo> {
-    return this.http.get<Photo>(`${API_URL}/photos/${photoId}`);
+    return this.http.get<Photo>(`${environment.apiUrl}/photos/${photoId}`);
   }
 
   getComments(photoId: number): Observable<PhotoComment[]> {
-    return this.http.get<PhotoComment[]>(`${API_URL}/photos/${photoId}/comments`);
+    return this.http.get<PhotoComment[]>(`${environment.apiUrl}/photos/${photoId}/comments`);
   }
 
   addComment(photoId: number, commentText: string) {
-    return this.http.post(`${API_URL}/photos/${photoId}/comments`, {
+    return this.http.post(`${environment.apiUrl}/photos/${photoId}/comments`, {
       commentText
     });
   }
 
   removePhoto(photoId: number) {
-    return this.http.delete(`${API_URL}/photos/${photoId}`);
+    return this.http.delete(`${environment.apiUrl}/photos/${photoId}`);
   }
 
   like(photoId: number): Observable<boolean> {
-    return this.http.post(API_URL + '/photos/' + photoId + '/like', {}, { observe: 'response' })
+    return this.http.post(environment.apiUrl + '/photos/' + photoId + '/like', {}, { observe: 'response' })
       .pipe(map(() => true))
       .pipe(catchError((err) => {
         return err.status === 304 ? of(false) : throwError(err);

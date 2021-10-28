@@ -1,47 +1,48 @@
 import { Injectable } from '@angular/core';
-import { TokenService } from '../token/token.service';
 import { BehaviorSubject } from 'rxjs';
-import { User } from './user';
 import * as jtw_decode from 'jwt-decode';
 
-@Injectable({ providedIn: 'root'})
-export class UserService { 
+import { TokenService } from '../token/token.service';
+import { User } from './user';
 
-    private userSubject = new BehaviorSubject<User>(null);
-    private userName: string;
+@Injectable({ providedIn: 'root' })
+export class UserService {
 
-    constructor(private tokenService: TokenService) { 
+  private userSubject = new BehaviorSubject<User>(null);
+  private userName: string;
 
-        this.tokenService.hasToken() && 
-            this.decodeAndNotify();
+  constructor(private tokenService: TokenService) {
+    if (this.tokenService.hasToken()) {
+      this.decodeAndNotify();
     }
+  }
 
-    setToken(token: string) {
-        this.tokenService.setToken(token);
-        this.decodeAndNotify();
-    }
+  setToken(token: string) {
+    this.tokenService.setToken(token);
+    this.decodeAndNotify();
+  }
 
-    getUser() {
-        return this.userSubject.asObservable();
-    }
+  getUser() {
+    return this.userSubject.asObservable();
+  }
 
-    private decodeAndNotify() {
-        const token = this.tokenService.getToken();
-        const user = jtw_decode(token) as User;
-        this.userName = user.name;
-        this.userSubject.next(user);
-    }
+  private decodeAndNotify() {
+    const token = this.tokenService.getToken();
+    const user = jtw_decode(token) as User;
+    this.userName = user.name;
+    this.userSubject.next(user);
+  }
 
-    logout() {
-        this.tokenService.removeToken();
-        this.userSubject.next(null);
-    }
+  logout() {
+    this.tokenService.removeToken();
+    this.userSubject.next(null);
+  }
 
-    isLogged() {
-        return this.tokenService.hasToken();
-    }
+  isLogged() {
+    return this.tokenService.hasToken();
+  }
 
-    getUserName() {
-        return this.userName;
-    }
+  getUserName() {
+    return this.userName;
+  }
 }

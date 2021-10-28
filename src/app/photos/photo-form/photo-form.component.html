@@ -5,7 +5,8 @@
         <button class="btn btn-primary" type="button" apImediateClick (click)="fileInput.click()">
           <i class="fa fa-image fa-4x align-middle"></i>
         </button>
-        <input #fileInput hidden type="file" accept="image/*" formControlName="file" (change)="handleFile($event.target.files[0])">
+        <input #fileInput hidden type="file" accept="image/*" formControlName="file"
+               (change)="handleFile($event.target.files[0])">
         <ap-vmessage text="Please, select a photo"
                      *ngIf="photoForm.get('file').errors?.required"></ap-vmessage>
       </div>
@@ -33,11 +34,16 @@
         </label>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block" [disabled]="photoForm.invalid">
-        Upload
-      </button>
+      <div *ngIf="!percentDone; else uploadPercent">
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="photoForm.invalid">
+          Upload
+        </button>
+        <a class="btn btn-secondary btn-block" [routerLink]="['']">Cancel</a>
+      </div>
 
-      <a class="btn btn-secondary btn-block">Cancel</a>
+      <ng-template #uploadPercent>
+        <div class="text-center display-4">uploading {{percentDone}}%</div>
+      </ng-template>
     </div>
   </form>
 </div>
